@@ -1,0 +1,141 @@
+<%inherit file='../base.html' />
+<%! from django.shortcuts import reverse %>
+<%def name='content()'>
+<%
+from app.model.videos import VideoType, FromType, NationalityType
+%>
+<h1>External video</h1>
+<button class="btn btn-info open-btn" id="open-add-video-btn">
+    Create
+</button><span>${error}</span>
+<form id="video-edit-area" class="form-horizontal edit-area add-video-area" action="" method="POST">${csrf_token}
+    <div class="form-group">
+        <div class="col-sm-10">
+            <input type="text" name="name" class="form-control" placeholder="Video name">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <input type="text" name="image" class="form-control" placeholder="Poster">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <label>Video type</label>
+            <select class="form-control video-select" name="video_type">
+                %for video_type in VideoType:
+                <option value="${video_type.value}">${video_type.value}</option>
+                %endfor
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <label>From type</label>
+            <select class="form-control video-select" name="from_to">
+                %for from_to in FromType:
+                <option value="${from_to.value}">${from_to.value}</option>
+                %endfor
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <label>Nationality</label>
+            <select class="form-control video-select" name="nationality">
+                %for nation in NationalityType:
+                <option value="${nation.value}">${nation.value}</option>
+                %endfor
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <textarea name="info" class="form-control" placeholder="description"></textarea>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-info">Add</button>
+</form>
+
+<h3>External videos</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Poster</th>
+        <th>Type</th>
+        <th>From</th>
+        <th>Nationality</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Create time</th>
+        <th>Update time</th>
+        <th>Edit</th>
+    </tr>
+    </thead>
+    <tbody>
+    % for video in ex_videos:
+    <tr>
+        <td>${video.name}</td>
+        <td><img class="video-images" src="${video.image}"></td>
+        <td>${video.video_type}</td>
+        <td>${video.from_to}</td>
+        <td>${video.nationality}</td>
+        <td><p class="info">${video.info}</p></td>
+        <td>${video.status}</td>
+        <td>${video.create_time}</td>
+        <td>${video.update_time}</td>
+        <td>
+            <a href="${reverse('video_update', kwargs={'video_id': video.id})}">Edit</a>
+            <a href="${reverse('video_sub', kwargs={'video_id': video.id})}">Details</a>
+            <a href="${reverse('video_update_status',  kwargs={'video_id': video.id})}">Status</a>
+        </td>
+    </tr>
+    % endfor
+    </tbody>
+</table>
+
+<h3>Custom videos</h3>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Poster</th>
+        <th>Type</th>
+        <th>From</th>
+        <th>Nationality</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Create time</th>
+        <th>Update time</th>
+        <th>Edit</th>
+    </tr>
+    </thead>
+    <tbody>
+    % for video in cus_videos:
+    <tr>
+        <td>${video.name}</td>
+        <td><img class="video-images" src="${video.image}"></td>
+        <td>${video.video_type}</td>
+        <td>${video.from_to}</td>
+        <td>${video.nationality}</td>
+        <td><p class="info">${video.info}</p></td>
+        <td>${video.status}</td>
+        <td>${video.create_time}</td>
+        <td>${video.update_time}</td>
+        <td>
+            <a href="${reverse('video_update', kwargs={'video_id': video.id})}">Edit</a>
+            <a href="${reverse('video_sub', kwargs={'video_id': video.id})}">Details</a>
+            <a href="${reverse('video_update_status',  kwargs={'video_id': video.id})}">Status</a>
+        </td>
+    </tr>
+    % endfor
+    </tbody>
+</table>
+</%def>
+<%def name='css()'>
+<link href="/static/dashboard/css/external_video.css" rel="stylesheet">
+</%def>
+<%def name='js()'>
+<script src="/static/dashboard/js/external_video.js"></script>
+</%def>

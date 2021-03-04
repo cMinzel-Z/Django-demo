@@ -1,0 +1,74 @@
+<%inherit file="../base.html" />
+<%def name='content()'>
+<%
+from django.shortcuts import reverse
+from app.model.videos import FromType
+from app.utils.permission import client_auth
+%>
+<img src="${video.image}" class="video-image">
+<div class="data">
+    <p>
+        <span class="span">Name:</span><br/>${video.name}
+    </p>
+    <p class="client-staff">
+        <span class="span">Staff:</span>
+    <ul>
+        % for man in video.video_star.all():
+        <li>${man.name}:${man.ident}</li>
+        % endfor
+    </ul>
+    </p>
+    <p>
+        <span class="span">Intro:</span><br/>
+        <span class="info">${video.info}</span>
+    </p>
+    <p>
+        <span class="span">Ep:</span><br/>
+        % if FromType(video.from_to) == FromType.custom and not client_auth(request):
+        <a href="${reverse('client_auth')}">plz log in</a>
+        % else:
+    <ul class="number-ul">
+        % for data in video.video_sub.all():
+        <li><a href="${data.url}">ep${data.number}</a></li>
+        % endfor
+    </ul>
+    % endif
+    </p>
+    <p>
+        <span class="span">
+            comments
+        </span><br/>
+    <div id="comment-area">
+        % if user:
+        <textarea id="comment-content"></textarea>${csrf_token}
+        <button id="comment-submit" data-url="${reverse('client_add_comment')}" data-user-id="${user.id}"
+                data-video-id="${video.id}">submit
+        </button>
+        % else:
+        <p><a href="${reverse('client_auth')}">plz log in</a></p>
+        % endif
+    </div>
+    </p>
+    <div class="comment-show-area">
+        <span class="span">
+            comment display
+        </span>
+        <div id="ajax-comment-show"></div>
+    <ul>
+        % for comment in comments:
+        <li>
+            <span>${comment.content}</span>
+            <span>${comment.user.username}</span>
+        </li>
+        % endfor
+    </ul>
+    </div>
+</div>
+</%def>
+<%def name='css()'>
+<link href="/static/client/css/video_sub.css" rel="stylesheet">
+</%def>
+
+<%def name='js()'>
+<script src="/static/client/js/video_sub.js"></script>
+</%def>

@@ -1,0 +1,39 @@
+<%inherit file='../base.html' />
+<%! from django.shortcuts import reverse %>
+<%def name='content()'>
+<%
+prev_page = '{}?page={}'.format(reverse('admin_manager'), page_num-1)
+next_page = '{}?page={}'.format(reverse('admin_manager'), page_num+1)
+%>
+<h1>Admin module</h1>
+% if page_num > 1:
+&nbsp;&nbsp;<a href="${prev_page}">Last page</a>
+% endif
+% if page_num < total:
+&nbsp;&nbsp;<a href="${next_page}">Next page</a>
+% endif
+<table class="table">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Status</th>
+        <th>Create time</th>
+        <th>Edit</th>
+    </tr>
+    </thead>
+    <tbody>
+    % for user in users:
+    <tr>
+        <td>${user.username}</td>
+        <td>${user.is_superuser}</td>
+        <td>${user.date_joined}</td>
+        % if user.is_superuser:
+        <td><a href="${reverse('admin_update_status')}?status=off">Cancel superuser</a></td>
+        %else:
+        <td><a href="${reverse('admin_update_status')}?status=on">Grant superuser</a></td>
+        % endif
+    </tr>
+    % endfor
+    </tbody>
+</table>
+</%def>

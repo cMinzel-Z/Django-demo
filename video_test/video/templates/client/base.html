@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>${self.title}</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="/static/client/images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/static/client/images/favicon.ico" type="image/x-icon" />
+    <link href="/static/client/css/base.css" rel="stylesheet">
+    ${self.css()}
+</head>
+<body>
+<%! from django.shortcuts import reverse %>
+<header>NAV</header>
+<div class="base-content">
+${self.content()}
+</div>
+
+<footer>
+<ul>
+    <li><a class="footer-a" href="${reverse('client_ex_video')}">External</a></li>
+    <li><a class="footer-a" href="${reverse('client_cus_video')}">Inner</a></li>
+    <li><a class="footer-a" href="${reverse('client_auth')}">My info</a></li>
+</ul>
+</footer>
+
+</body>
+
+<script src="/static/dashboard/js/jquery-3.5.1.min.js"></script>
+${self.js()}
+</html>
+
+<%def name="title()"></%def>
+<%def name="js()"></%def>
+<%def name="css()"></%def>
+<%def name="content()"></%def>

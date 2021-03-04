@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>${self.title()}</title>
+    <link href="/static/dashboard/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/dashboard/css/base.css" rel="stylesheet">
+    ${self.css()}
+</head>
+<body>
+<%!
+from django.shortcuts import reverse
+%>
+<%include file='nav.html' />
+<div id="base-area">
+    <ul class="side-menu">
+        <li><a href="${reverse('admin_manager')}">Admin</a></li>
+        <li><a href="${reverse('dashboard_client_user')}">User</a></li>
+        <li><a href="${reverse('external_video')}">Video</a></li>
+    </ul>
+    <div class="base-content">
+        ${self.content()}
+    </div>
+</div>
+</body>
+<script src="/static/dashboard/js/jquery-3.5.1.min.js"></script>
+<script src="/static/dashboard/js/bootstrap.min.js"></script>
+${self.js()}
+</html>
+
+<%def name="title()"></%def>
+<%def name="js()"></%def>
+<%def name="css()"></%def>
+<%def name="content()"></%def>

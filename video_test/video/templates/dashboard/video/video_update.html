@@ -1,0 +1,63 @@
+<%inherit file='../base.html' />
+<%! from django.shortcuts import reverse %>
+<%def name='content()'>
+<%
+from app.model.videos import VideoType, FromType, NationalityType
+%>
+
+<form id="video-edit-area" class="form-horizontal edit-area add-video-area" action="${reverse('external_video')}" method="POST">${csrf_token}
+    <div class="form-group">
+        <div class="col-sm-10">
+            <label>Name</label>
+            <input type="text" value="${video.name}" name="name" class="form-control" placeholder="Video name">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <label>Poster</label>
+            <input type="text" value="${video.image}" name="image" class="form-control" placeholder="Poster">
+            <img style="width: 200px" src="${video.image}">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <label>Video type</label>
+            <select class="form-control video-select" value="${video.video_type}" name="video_type">
+                %for video_type in VideoType:
+                <option value="${video_type.value}">${video_type.value}</option>
+                %endfor
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <label>From type</label>
+            <select value="${video.from_to}" class="form-control video-select" name="from_to">
+                %for from_to in FromType:
+                <option value="${from_to.value}">${from_to.value}</option>
+                %endfor
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <label>Nationality</label>
+            <select value="${video.nationality}" class="form-control video-select" name="nationality">
+                %for nation in NationalityType:
+                <option value="${nation.value}">${nation.value}</option>
+                %endfor
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-10">
+            <textarea name="info" class="form-control" placeholder="description">
+                ${video.info}
+            </textarea>
+        </div>
+    </div>
+    <input type="hidden" value="${video.id}" name="video_id">
+    <button type="submit" class="btn btn-info">Update</button>
+</form>
+
+</%def>

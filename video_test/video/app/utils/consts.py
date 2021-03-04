@@ -1,0 +1,1 @@
+COOKIE_NAME = 'video_cookie_name'
